@@ -10,17 +10,20 @@ using namespace std;
 //}
 
 void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
+    if (arr_sz <= 1) {
+        return;
+    }
+
     int forward_index = 1;
     while (forward_index < arr_sz) {
-        int reverse_index = forward_index;
-        while (reverse_index > 0 && (*(arr_ptr + reverse_index - 1) > *(arr_ptr + reverse_index))) {
-            int tmp = *(arr_ptr + reverse_index - 1);
-            *(arr_ptr + reverse_index - 1) = *(arr_ptr + reverse_index);
-            *(arr_ptr + forward_index) = tmp;
-
+        int sort_candidate = *(arr_ptr + forward_index);
+        int reverse_index  = forward_index - 1;
+        while (reverse_index >= 0 && (*(arr_ptr + reverse_index) > sort_candidate)) {
+            *(arr_ptr + reverse_index + 1) = *(arr_ptr + reverse_index);
             --reverse_index;
         }
 
+        *(arr_ptr + reverse_index + 1) = sort_candidate;
         ++forward_index;
     }
 }
@@ -53,7 +56,7 @@ void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
 //}
 
 int main() {
-    int arr[] = { 3, 1, 2 };
+    int arr[] = { 3, 1, 2, 9, 3, 4, 8, 5, 6 };
     int arr_sz = sizeof(arr) / sizeof(int);
     sortWithInsertionSort(&arr[0], arr_sz);
 
