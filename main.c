@@ -1,5 +1,7 @@
 #include <stdio.h>
 
+/***** Some logging code for debugging *****/
+
 const static int tab_stop = 4;
 
 int indent_level = 0;
@@ -40,6 +42,8 @@ int indent_level = 0;
     printf("%*s", indent_level, "");        \
     printf("}\n")
 
+/*******************************************/
+
 int partition(int* arr_ptr, int arr_sz) {
     logFun(arr_ptr, arr_sz);
 
@@ -66,6 +70,7 @@ int partition(int* arr_ptr, int arr_sz) {
     }
 
     endLogFun();
+
     return pivot_index;
 }
 
@@ -88,6 +93,7 @@ void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
         *(arr_ptr + reverse_index + 1) = sort_candidate;
         ++forward_index;
     }
+
     endLogFun();
 }
 
@@ -115,6 +121,7 @@ void sortWithQuickSort(int* arr_ptr, int arr_sz) {
     } else {
         sortWithInsertionSort(arr_ptr, left_partition_sz);
     }
+
     endLogFun();
 }
 
@@ -126,6 +133,7 @@ void sort(int* arr_ptr, int arr_sz) {
     } else {
         sortWithInsertionSort(arr_ptr, arr_sz);
     }
+
     endLogFun();
 }
 
