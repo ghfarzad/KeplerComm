@@ -1,14 +1,11 @@
-#include <iostream>
+#include <stdio.h>
 
-using namespace std;
-
-void print(const string& name, int value) {
-    cout << name << ": " << value << endl;
-}
-
-#define log(expr) print(#expr, expr)
+#define log(expr) printf("%s: %d\n", #expr, expr)
+#define logFun()  printf("%s()\n", __FUNCTION__)
 
 int partition(int* arr_ptr, int arr_sz) {
+    logFun();
+
     if (arr_sz <= 1) {
         return 0;
     }
@@ -40,6 +37,8 @@ int partition(int* arr_ptr, int arr_sz) {
 }
 
 void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
+    logFun();
+
     if (arr_sz <= 1) {
         return;
     }
@@ -58,49 +57,63 @@ void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
     }
 }
 
-//void sortWithQuckSort(int* arr_ptr, int arr_sz) {
-//    if (arr_sz == 1) {
-//        return;
-//    }
-//
-//    int pivot_index = partition(arr_ptr, arr_sz);
-//
-//    int right_partition_sz = pivot_index;
-//    int left_partition_sz  = arr_sz - right_partition_sz - 1;
-//
-//    if (right_partition_sz > 1) {
-//        sortWithQuickSort(arr_ptr, right_partition_sz);
-//    }
-//
-//    if (left_partion_sz){
-//        sortWithQuickSort(arr_ptr + right_partition_sz, left_partition_sz);
-//    }
-//}
+void sortWithQuickSort(int* arr_ptr, int arr_sz) {
+    logFun();
 
-//void sort(int* arr_ptr, int arr_sz) {
-//    if (arr_sz < 10) {
-//        sortWithInsertionSort(arr_ptr, arr_sz);
-//    } else {
-//        sortWithQuckSort(arr_ptr, arr_sz);
-//    }
-//}
+    if (arr_sz <= 1) {
+        return;
+    }
+
+    int pivot_index = partition(arr_ptr, arr_sz);
+
+    int left_partition_sz  = pivot_index;
+    int right_partition_sz = arr_sz - left_partition_sz - 1;
+
+    if (right_partition_sz > 10) {
+        sortWithQuickSort(arr_ptr + pivot_index + 1, right_partition_sz);
+    } else {
+        sortWithInsertionSort(arr_ptr + pivot_index + 1, right_partition_sz);
+    }
+
+    if (left_partition_sz > 10) {
+        sortWithQuickSort(arr_ptr, left_partition_sz);
+    } else {
+        sortWithInsertionSort(arr_ptr, left_partition_sz);
+    }
+}
+
+void sort(int* arr_ptr, int arr_sz) {
+    logFun();
+
+    log(arr_sz);
+
+    if (arr_sz > 10) {
+        sortWithQuickSort(arr_ptr, arr_sz);
+    } else {
+        sortWithInsertionSort(arr_ptr, arr_sz);
+    }
+}
 
 int main() {
-    int arr[] = { 3, 1 , 2, 9, 3, 4, 8, 5, 6 };
+    int arr[]  = { 25, 102, 953, 705, 284, 999, -1, 57, 492, 33, 15, 11, 148, 998, 775 };
     int arr_sz = sizeof(arr) / sizeof(int);
 
-    int pivot_index = partition(&arr[0], arr_sz);
-    int pivot_value = *(&arr[0] + pivot_index);
-    log(pivot_index);
-    log(pivot_value);
-    //log(arr_sz);
+    //int pivot_index = partition(&arr[0], arr_sz);
+    //int pivot_value = *(&arr[0] + pivot_index);
+    //log(pivot_index);
+    //log(pivot_value);
 
-    //sortWithInsertionSort(&arr[0], arr_sz);
+    sort(&arr[0], arr_sz);
 
-    //for (int i = 0; i < arr_sz; ++i) {
-    //    cout << arr[i];
-    //}
+    for (int i = 0; i < arr_sz; ++i) {
+        if (i == arr_sz - 1) {
+            printf("%d", arr[i]);
+        } else {
+            printf("%d-", arr[i]);
+        }
+    }
 
-    //cout << endl;
+    printf("\n");
+
     return 0;
 }
