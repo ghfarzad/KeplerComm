@@ -63,7 +63,7 @@ int partition(int* arr_ptr, int arr_sz) {
         return 0;
     }
 
-    // To avoid worst case preformace on already sorted array,
+    // To avoid worst case preformance on already sorted array,
     // select array middle value as pivot
     int arr_mid_index          = (arr_sz - 1) / 2;
     int pivot_value            = *(arr_ptr + arr_mid_index);
