@@ -34,7 +34,9 @@ int indent_level = 0;
     printf("%*s", indent_level, "");        \
     indent_level = indent_level + tab_stop; \
     printf("%s(", __FUNCTION__);            \
+    printf("%s: ", "arr");                  \
     logArrayArg(arr_ptr, arr_sz);           \
+    printf(", %s: %d", #arr_sz, arr_sz);    \
     printf(") {\n")
 
 #define endLogFun()                         \
@@ -42,17 +44,34 @@ int indent_level = 0;
     printf("%*s", indent_level, "");        \
     printf("}\n")
 
+#define logError(msg)                       \
+    printf("ERROR: %s\n", msg)
+
 /*******************************************/
 
+#define failed_to_partition 1
+
 int partition(int* arr_ptr, int arr_sz) {
+    if (arr_ptr == NULL) {
+        logError("arr_ptr cannot be NULL");
+        return failed_to_partition;
+    }
+
     logFun(arr_ptr, arr_sz);
 
     if (arr_sz <= 1) {
         return 0;
     }
 
+    // To avoid worst case preformace on already sorted array,
+    // select array middle value as pivot
+    int arr_mid_index          = (arr_sz - 1) / 2;
+    int pivot_value            = *(arr_ptr + arr_mid_index);
+    int tmp                    = *(arr_ptr);
+    *(arr_ptr)                 = pivot_value;
+    *(arr_ptr + arr_mid_index) = tmp;
+
     int pivot_index      = 0;
-    int pivot_value      = *(arr_ptr + pivot_index);
     int index_to_compare = arr_sz - 1;
     int num_comparisons  = 0;
     while (++num_comparisons < arr_sz) {
@@ -75,6 +94,11 @@ int partition(int* arr_ptr, int arr_sz) {
 }
 
 void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
+    if (arr_ptr == NULL) {
+        logError("arr_ptr cannot be NULL");
+        return;
+    }
+
     logFun(arr_ptr, arr_sz);
 
     if (arr_sz <= 1) {
@@ -98,6 +122,11 @@ void sortWithInsertionSort(int* arr_ptr, int arr_sz) {
 }
 
 void sortWithQuickSort(int* arr_ptr, int arr_sz) {
+    if (arr_ptr == NULL) {
+        logError("arr_ptr cannot be NULL");
+        return;
+    }
+
     logFun(arr_ptr, arr_sz);
 
     if (arr_sz <= 1) {
@@ -126,7 +155,16 @@ void sortWithQuickSort(int* arr_ptr, int arr_sz) {
 }
 
 void sort(int* arr_ptr, int arr_sz) {
+    if (arr_ptr == NULL) {
+        logError("arr_ptr cannot be NULL");
+        return;
+    }
+
     logFun(arr_ptr, arr_sz);
+
+    if (arr_sz <= 1) {
+        return;
+    }
 
     if (arr_sz > 10) {
         sortWithQuickSort(arr_ptr, arr_sz);
