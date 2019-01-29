@@ -176,7 +176,7 @@ void sort(int* arr_ptr, int arr_sz) {
 }
 
 int main() {
-    int arr[]  = { 25, 102, 953, 705, 284, 999, -1, 57, 492, 33, 15, 11, 148, 998, 775 };
+    int arr[]  = { 25, 102, 953, 705, 284, 999, -1, 57, 492, 33, 15, 11, 148, 998, 775, 10, 15, 8989, 124, 145 };
     int arr_sz = sizeof(arr) / sizeof(int);
 
     sort(&arr[0], arr_sz);
